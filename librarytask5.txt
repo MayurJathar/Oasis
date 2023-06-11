@@ -1,0 +1,184 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Book {
+    private String title;
+    private String author;
+    private boolean available;
+
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+        this.available = true;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+}
+
+class Library {
+    private List<Book> books;
+
+    public Library() {
+        books = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public void displayAvailableBooks() {
+        System.out.println("Available Books:");
+        for (Book book : books) {
+            if (book.isAvailable()) {
+                System.out.println("Title: " + book.getTitle() + ", Author: " + book.getAuthor());
+            }
+        }
+    }
+
+    public void issueBook(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title) && book.isAvailable()) {
+                book.setAvailable(false);
+                System.out.println("Book issued successfully.");
+                return;
+            }
+        }
+        System.out.println("Book not available for issuing.");
+    }
+
+    public void returnBook(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title) && !book.isAvailable()) {
+                book.setAvailable(true);
+                System.out.println("Book returned successfully.");
+                return;
+            }
+        }
+        System.out.println("Invalid book title or book is already available.");
+    }
+}
+
+class User {
+    private String name;
+
+    public User(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+public class LibraryManagementSystem {
+    private Library library;
+    private User user;
+    private Scanner scanner;
+
+    public LibraryManagementSystem() {
+        library = new Library();
+        scanner = new Scanner(System.in);
+    }
+
+    public void registerUser() {
+        System.out.print("Enter your name: ");
+        String name = scanner.nextLine();
+        user = new User(name);
+        System.out.println("Registration successful. Welcome, " + user.getName() + "!");
+    }
+
+    public void addBooksToLibrary() {
+        System.out.println("Adding Books to Library:");
+        System.out.print("Enter the number of books to add: ");
+        int count = scanner.nextInt();
+        scanner.nextLine();
+
+        for (int i = 0; i < count; i++) {
+            System.out.println("Book " + (i + 1) + ":");
+            System.out.print("Enter the title: ");
+            String title = scanner.nextLine();
+            System.out.print("Enter the author: ");
+            String author = scanner.nextLine();
+            Book book = new Book(title, author);
+            library.addBook(book);
+            System.out.println("Book added successfully.");
+        }
+    }
+
+    public void displayAvailableBooks() {
+        library.displayAvailableBooks();
+    }
+
+    public void issueBook() {
+        System.out.print("Enter the title of the book to issue: ");
+        String title = scanner.nextLine();
+        library.issueBook(title);
+    }
+
+    public void returnBook() {
+        System.out.print("Enter the title of the book to return: ");
+        String title = scanner.nextLine();
+        library.returnBook(title);
+    }
+
+    public void run() {
+        System.out.println("Welcome to the Library Management System!");
+        registerUser();
+
+        boolean running = true;
+        while (running) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Add Books to Library");
+            System.out.println("2. Display Available Books");
+            System.out.println("3. Issue a Book");
+            System.out.println("4. Return a Book");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    addBooksToLibrary();
+                    break;
+                case 2:
+                    displayAvailableBooks();
+                    break;
+                case 3:
+                    issueBook();
+                    break;
+                case 4:
+                    returnBook();
+                    break;
+                case 5:
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+
+        System.out.println("Thank you for using the Library Management System!");
+    }
+
+    public static void main(String[] args) {
+        LibraryManagementSystem system = new LibraryManagementSystem();
+        system.run();
+    }
+}
+
