@@ -1,0 +1,83 @@
+import java.util.Scanner;
+
+public class OnlineReservationSystem {
+    private String username;
+    private String password;
+    private boolean isLoggedIn;
+
+    public OnlineReservationSystem() {
+        this.username = "admin";
+        this.password = "admin123";
+        this.isLoggedIn = false;
+    }
+
+    public void login() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Login Form");
+        System.out.print("Username: ");
+        String enteredUsername = scanner.nextLine();
+        System.out.print("Password: ");
+        String enteredPassword = scanner.nextLine();
+
+        if (enteredUsername.equals(username) && enteredPassword.equals(password)) {
+            System.out.println("Login successful!");
+            isLoggedIn = true;
+        } else {
+            System.out.println("Invalid credentials. Please try again.");
+        }
+    }
+
+    public void makeReservation() {
+        if (!isLoggedIn) {
+            System.out.println("Please login first!");
+            return;
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Reservation Form");
+        System.out.print("Enter your name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter train number: ");
+        int trainNumber = scanner.nextInt();
+        scanner.nextLine(); // Clearing the input buffer
+        System.out.print("Enter class type: ");
+        String classType = scanner.nextLine();
+        System.out.print("Enter date of journey: ");
+        String dateOfJourney = scanner.nextLine();
+        System.out.print("Enter source station: ");
+        String sourceStation = scanner.nextLine();
+        System.out.print("Enter destination station: ");
+        String destinationStation = scanner.nextLine();
+
+        // Process the reservation and save the data to the central database
+        // Add your code here...
+
+        System.out.println("Reservation successful!");
+    }
+
+    public void cancelReservation() {
+        if (!isLoggedIn) {
+            System.out.println("Please login first!");
+            return;
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Cancellation Form");
+        System.out.print("Enter PNR number: ");
+        String pnrNumber = scanner.nextLine();
+
+        // Retrieve reservation information from the central database based on the PNR number
+        // Add your code here...
+
+        System.out.println("Cancellation successful!");
+    }
+
+    public static void main(String[] args) {
+        OnlineReservationSystem reservationSystem = new OnlineReservationSystem();
+        reservationSystem.login();
+
+        // Example usage of the reservation system
+        reservationSystem.makeReservation();
+        reservationSystem.cancelReservation();
+    }
+}
